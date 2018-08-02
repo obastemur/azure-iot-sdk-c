@@ -692,7 +692,7 @@ typedef struct UPLOADTOBLOB_TEST_UT_CONTEXT_TAG
     const char* json_correlationId;
 } UPLOADTOBLOB_TEST_UT_CONTEXT;
 
-UPLOADTOBLOB_TEST_UT_CONTEXT uploadtoblobTest_Context;
+static UPLOADTOBLOB_TEST_UT_CONTEXT uploadtoblobTest_Context;
 
 static void setup_upload_to_blob_happypath(UPLOADTOBLOB_TEST_TYPE uploadToBlobTestType, UPLOAPTOBLOB_TEST_CURL_VERBOSITY testCurlVerbosity)
 {
