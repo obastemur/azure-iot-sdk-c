@@ -1316,7 +1316,7 @@ IOTHUB_CLIENT_RESULT IoTHubClient_LL_UploadToBlob_SetOption(IOTHUB_CLIENT_LL_UPL
         }
         else if (strcmp(optionName, OPTION_CURL_VERBOSE) == 0)
         {
-            handleData->curl_verbosity_level = ((*(size_t*)value) == 0) ? UPOADTOBLOB_CURL_VERBOSITY_OFF : UPOADTOBLOB_CURL_VERBOSITY_ON;
+            handleData->curl_verbosity_level = ((*(bool*)value) == 0) ? UPOADTOBLOB_CURL_VERBOSITY_OFF : UPOADTOBLOB_CURL_VERBOSITY_ON;
             result = IOTHUB_CLIENT_OK;
         }
         else if (strcmp(optionName, OPTION_BLOB_UPLOAD_TIMEOUT_SECS) == 0)
