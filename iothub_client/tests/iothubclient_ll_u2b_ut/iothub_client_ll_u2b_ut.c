@@ -355,6 +355,40 @@ static unsigned char TestValid_BUFFER_u_char[] = { '3', '\0' };
 
 static char TEST_DEFAULT_STRING_VALUE[2] = { '3', '\0' };
 
+// We store many return values during run of UploadToBlob UT to make sure they're processed correctly later.
+// We need these to exist outside the scope of setup_upload_to_blob_happypath, which is deleted prior to invoking UT itself.
+typedef struct UPLOADTOBLOB_TEST_UT_CONTEXT_TAG
+{
+    int i;
+    STRING_HANDLE correlationId;
+    STRING_HANDLE sasUri;
+    HTTPAPIEX_HANDLE iotHubHttpApiExHandle;
+    HTTP_HEADERS_HANDLE iotHubHttpRequestHeaders1;
+    STRING_HANDLE iotHubHttpRelativePath1;
+    BUFFER_HANDLE iotHubHttpMessageBodyResponse1;
+    STRING_HANDLE blobJson;
+    BUFFER_HANDLE jsonBuffer;
+    const char* sasUri_as_const_char;
+    STRING_HANDLE uriResource;
+    const char* json_hostName;
+    const char* json_containerName;
+    const char* json_blobName;
+    const char* json_sasToken;
+    STRING_HANDLE relativePathNotification;
+    const char* correlationId_as_char;
+    const char* relativePathNotification_as_char;
+    unsigned char* iotHubHttpMessageBodyResponse1_unsigned_char;
+    size_t iotHubHttpMessageBodyResponse1_size;
+    const char* iotHubHttpRelativePath1_as_const_char;
+    STRING_HANDLE iotHubHttpMessageBodyResponse1_as_STRING_HANDLE;
+    const char* iotHubHttpMessageBodyResponse1_as_const_char;
+    JSON_Value* allJson;
+    JSON_Object* jsonObject;
+    const char* json_correlationId;
+} UPLOADTOBLOB_TEST_UT_CONTEXT;
+
+static UPLOADTOBLOB_TEST_UT_CONTEXT uploadtoblobTest_Context;
+
 BEGIN_TEST_SUITE(iothubclient_ll_uploadtoblob_ut)
 
 TEST_SUITE_INITIALIZE(TestClassInitialize)
@@ -660,43 +694,9 @@ typedef enum UPLOAPTOBLOB_TEST_CURL_VERBOSITY_TAG
     UPLOAPTOBLOB_TEST_CURL_VERBOSITY_OFF
 } UPLOAPTOBLOB_TEST_CURL_VERBOSITY;
 
-
-// We store many return values during run of UploadToBlob UT to make sure they're processed correctly later.
-// We need these to exist outside the scope of setup_upload_to_blob_happypath, which is deleted prior to invoking UT itself.
-typedef struct UPLOADTOBLOB_TEST_UT_CONTEXT_TAG
-{
-    STRING_HANDLE correlationId;
-    STRING_HANDLE sasUri;
-    HTTPAPIEX_HANDLE iotHubHttpApiExHandle;
-    HTTP_HEADERS_HANDLE iotHubHttpRequestHeaders1;
-    STRING_HANDLE iotHubHttpRelativePath1;
-    BUFFER_HANDLE iotHubHttpMessageBodyResponse1;
-    STRING_HANDLE blobJson;
-    BUFFER_HANDLE jsonBuffer;
-    const char* sasUri_as_const_char;
-    STRING_HANDLE uriResource;
-    const char* json_hostName;
-    const char* json_containerName;
-    const char* json_blobName;
-    const char* json_sasToken;
-    STRING_HANDLE relativePathNotification;
-    const char* correlationId_as_char;
-    const char* relativePathNotification_as_char;
-    unsigned char* iotHubHttpMessageBodyResponse1_unsigned_char;
-    size_t iotHubHttpMessageBodyResponse1_size;
-    const char* iotHubHttpRelativePath1_as_const_char;
-    STRING_HANDLE iotHubHttpMessageBodyResponse1_as_STRING_HANDLE;
-    const char* iotHubHttpMessageBodyResponse1_as_const_char;
-    JSON_Value* allJson;
-    JSON_Object* jsonObject;
-    const char* json_correlationId;
-} UPLOADTOBLOB_TEST_UT_CONTEXT;
-
-static UPLOADTOBLOB_TEST_UT_CONTEXT uploadtoblobTest_Context;
-
 static void setup_upload_to_blob_happypath(UPLOADTOBLOB_TEST_TYPE uploadToBlobTestType, UPLOAPTOBLOB_TEST_CURL_VERBOSITY testCurlVerbosity)
 {
-    memset(&uploadtoblobTest_Context, 0, sizeof(uploadtoblobTest_Context));
+    memset(&uploadtoblobTest_Context, 0, sizeof(uploadtoblobTest_Context.));
 
     STRICT_EXPECTED_CALL(HTTPAPIEX_Create(TEST_IOTHUBNAME "." TEST_IOTHUBSUFFIX))
         .CaptureReturn(&uploadtoblobTest_Context.iotHubHttpApiExHandle)
