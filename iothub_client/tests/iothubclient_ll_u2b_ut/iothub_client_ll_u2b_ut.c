@@ -696,7 +696,7 @@ typedef enum UPLOAPTOBLOB_TEST_CURL_VERBOSITY_TAG
 
 static void setup_upload_to_blob_happypath(UPLOADTOBLOB_TEST_TYPE uploadToBlobTestType, UPLOAPTOBLOB_TEST_CURL_VERBOSITY testCurlVerbosity)
 {
-    memset(&uploadtoblobTest_Context, 0, sizeof(uploadtoblobTest_Context.));
+    memset(&uploadtoblobTest_Context, 0, sizeof(uploadtoblobTest_Context));
 
     STRICT_EXPECTED_CALL(HTTPAPIEX_Create(TEST_IOTHUBNAME "." TEST_IOTHUBSUFFIX))
         .CaptureReturn(&uploadtoblobTest_Context.iotHubHttpApiExHandle)
